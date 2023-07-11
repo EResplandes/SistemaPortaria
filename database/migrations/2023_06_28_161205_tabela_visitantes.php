@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TabelaMilitar extends Migration
+class TabelaVisitantes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class TabelaMilitar extends Migration
      */
     public function up()
     {
-        Schema::create('militars', function (Blueprint $table) {
+        Schema::create('visitantes', function (Blueprint $table) {
             $table->id();
-            $table->string('posto');
-            $table->string('nome_guerra');
+            $table->string('nome_completo');
+            $table->string('cpf');
+            $table->string('telefone');
+            $table->string('url_imagem');
             $table->timestamps();
         });
     }

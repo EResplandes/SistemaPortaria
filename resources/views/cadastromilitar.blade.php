@@ -7,10 +7,10 @@
       <h2>Cadastro de Militar</h2>
     </div>
     @if (session('msg'))
-            <div class="alert alert-info">
-              {{ session('msg') }}
-            </div>
-            @endif
+    <div class="alert alert-info">
+      {{ session('msg') }}
+    </div>
+    @endif
     <div class="col-md-12 col-lg-12 border p-5 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
       <h4 class="mb-3">Formulário</h4>
       <hr>
@@ -34,7 +34,12 @@
               O campo é obrigatório!
             </div>
           </div>
-          <button type="submit" class="w-100 btn btn-primary btn-lg" name="submit">Cadastrar Militar</button>
+          <button type="submit" class="w-100 btn btn-primary btn-lg" name="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus-fill" viewBox="0 0 16 16">
+              <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+              <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+            </svg>
+            Cadastrar Militar</button>
       </form>
     </div>
     <br>
@@ -57,6 +62,7 @@
         <th scope="row">{{ $militar->id }}</th>
         <td>{{ $militar->posto }}</td>
         <td>{{ $militar->nome_guerra }}</td>
+
         <td class=" d-flex">
           <a href="{{ route('cadastro-militar-edit', ['id' => $militar->id ?? '']) }}" class="btn btn-success me-1">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -65,20 +71,25 @@
             </svg>
             Editar
           </a>
+
           <form method="POST" action="{{ route('cadastro-militar-destroy', ['id' => $militar->id ?? '']) }}">
-          @csrf
-          @method('DELETE')
-          <button type="submit" class="btn btn-danger">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
-              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
-              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
-            </svg>
-            Excluir
-          </button>
+            @csrf
+            @method('DELETE')
+            @auth
+            @if(auth()->user()->name == 'resplandes')
+            <button type="submit" class="btn btn-danger">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
+              </svg>
+              Excluir
+            </button>
+            @endif
+            @endauth
           </form>
-          
+
           </form>
-          
+
         </td>
       </tr>
     </tbody>

@@ -10,9 +10,7 @@ class CadastroMilitaresController extends Controller
 {
     public function index()
     {
-
         $militares = militar::all();
-
         return view('cadastromilitar', ['militares' => $militares]);
     }
 
@@ -24,16 +22,34 @@ class CadastroMilitaresController extends Controller
 
     public function store(Request $request)
     {
+        $VerificarPosto = $request->input('posto');
+        $VerificarNome = $request->input('nome_guerra');
+        $ValidaNome =  militar::where('nome_guerra', $VerificarNome)->first();
+        $validaPosto = militar::where('nome_guerra', $VerificarNome)->value('posto');
 
-        if (is_numeric($request->input('nome_guerra'))) {
+        if(is_numeric($request->input('nome_guerra'))) 
+        {
             $msg = 'Não é permitido número!';
-        } elseif (empty($request)) {
+        } 
+        elseif(empty($request))
+        {
             $msg = "Preencha todos os dados!";
-        } else {
-            militar::create($request->all());
-            $msg = "Cadastrado com sucesso!";
         }
-
+        else
+        {   
+            // Verifica se o campo input('nome_guerra' está vazio)
+            if($ValidaNome == null){
+                // Verifica se o posto que veio da query $validaPosto é igual o posto que veio do input
+                if($validaPosto == $VerificarPosto){
+                    $msg = "$VerificarNome já está cadastrado no sistema";  
+                } else {
+                    militar::create($request->all());
+                    $msg = "Cadastrado com sucesso!";
+                }
+            } else {
+                $msg = "$VerificarNome já está cadastrado no sistema";
+            }        
+        }
         return redirect()->route('cadastro-militar')->with('msg', $msg);
     }
 

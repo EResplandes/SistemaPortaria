@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TabelaMilitar extends Migration
+class TabelaSaidaMilitar extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,15 @@ class TabelaMilitar extends Migration
      */
     public function up()
     {
-        Schema::create('militars', function (Blueprint $table) {
+        Schema::create('saida_militar', function (Blueprint $table) {
             $table->id();
-            $table->string('posto');
-            $table->string('nome_guerra');
+            $table->date('data');
+            $table->time('hora_saida');
+            $table->time('hora_retorno')->nullable();
+            $table->string('destino');
             $table->timestamps();
+            $table->unsignedBigInteger('militars_id');
+            $table->foreign('militars_id')->references('id')->on('militars');
         });
     }
 
